@@ -32,34 +32,51 @@
   //   Slider activation
 
   function mainSlider() {
-    var BasicSlider = $('.slider-active')
-    BasicSlider.on('init', function () {
+    var mainSlider = $('.slider-active')
+    // ? TODO: Do we need this function?
+    mainSlider.on('init', function () {
       var $firstAnimatingElements = $('.single-slider:first-child').find(
         '[data-animation]'
       )
       doAnimations($firstAnimatingElements)
     })
-    BasicSlider.on('beforeChange', function (nextSlide) {
+    // TODO: Create loop for infinite slideshow
+    mainSlider.on('beforeChange', function (nextSlide) {
       var $animatingElements = $(
         '.single-slider[data-slick-index="' + nextSlide + '"]'
       ).find('[data-animation]')
       doAnimations($animatingElements)
     })
-    BasicSlider.slick({
+    mainSlider.slick({
+      accessibility: true,
       autoplay: true,
-      autoplaySpeed: 20_000,
-      fade: true,
-      prevArrow:
-        '<button type="button" class="slick-prev"><i class="icofont-long-arrow-left"></i>Prev</button>',
-      nextArrow:
-        '<button type="button" class="slick-next"><i class="icofont-long-arrow-right"></i>Next</button>',
+      autoplaySpeed: 20000,
       arrows: false,
+      easing: 'linear',
       dots: true,
+      fade: true,
+      infinite: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      speed: 500,
+      mobileFirst: true,
+      respondTo: 'min',
       responsive: [
-        { breakpoint: 767, settings: { dots: false, arrows: false } }
+        {
+          breakpoint: 600,
+          settings: {
+            arrows: false,
+            dots: true,
+            swipe: true,
+            swipeToSlide: true,
+            touchMove: true,
+            touchThreshold: 4
+          }
+        }
       ]
     })
 
+    // ? TODO: Revisit whatever this is
     function doAnimations(elements) {
       var animationEndEvents =
         'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
